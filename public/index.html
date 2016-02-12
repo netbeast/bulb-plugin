@@ -1,0 +1,49 @@
+<head>
+  <title>Netbeast Bulb Plugin</title>
+  <link rel="stylesheet" href="bulb.css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="style.css" media="screen" charset="utf-8">
+</head>
+
+<body>
+  <div class="top-decoration"></div>
+  <div id="plugin front-end">
+  </div>
+  <div class="bulb-container small">
+    <div class="bulb light">
+      <div id="bulb">
+        <div class="bulb top"></div>
+        <div class="bulb middle-1"></div>
+        <div class="bulb middle-2"></div>
+        <div class="bulb middle-3"></div>
+        <div class="bulb bottom"></div>
+      </div>
+      <div id="base">
+        <div class="screw-top"></div>
+        <div class="screw a"></div>
+        <div class="screw b"></div>
+        <div class="screw a"></div>
+        <div class="screw b"></div>
+        <div class="screw a"></div>
+        <div class="screw b"></div>
+        <div class="screw c"></div>
+        <div class="screw d"></div>
+      </div>
+    </div>
+  </div>
+    <div class="code-container">
+      <pre><i class="txt-red">beast</i>(<i class="txt-green">'lights'</i>).<i class="txt-blue">set</i>({
+  <i class="txt-green">color</i>: <i class="txt-green">"<input id="color" type="text" class="color" name="color" value="9AD74C">"</i>,
+  <i class="txt-green">power</i>: <i class="txt-green">"<input id="power" type="text" class="power" name="power" value="on">"</i>
+})</pre>
+    <div id="run-btn">
+      RUN
+    </div>
+  </div><!-- wrapper -->
+
+  <!-- declares bulb features and methods -->
+  <script type="text/javascript" src="bulb.js"></script>
+  <!-- real time comms library -->
+  <script type="text/javascript" src="socket.io"></script>
+  <!-- simulates hardware communication -->
+  <script type="text/javascript" src="hw-api.js"></script>
+</body>
