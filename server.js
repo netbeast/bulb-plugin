@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use('/api', require('./plugin')(io))
 
 var server = app.listen(argv.port || 31416, function () {
-  console.log('Example app listening at http://%s:%s',
+  console.log('Bulb plugin listening at http://%s:%s',
   server.address().address,
   server.address().port)
 })

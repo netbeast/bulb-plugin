@@ -16,7 +16,7 @@ function setBulbParams (params) {
 
   var bulb_parts = ['.bulb.middle-1', '.bulb.middle-2', '.bulb.middle-3']
 
-  document.querySelector('.bulb.top').style.boxShadow = '0px 0px 98px #' + params.color
+  document.querySelector('.bulb.top').style.boxShadow = '0px 0px 98px ' + params.color
 
   document.querySelector('.bulb.top').style.backgroundColor = params.color
   document.querySelector('.bulb.bottom').style.backgroundColor = params.color

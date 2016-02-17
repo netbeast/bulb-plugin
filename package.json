@@ -4,6 +4,7 @@
   "description": "A repo with code about how to make simple Netbeast apps.",
   "main": "server.js",
   "dependencies": {
+    "colorsys": "^1.0.6",
     "express": "^4.12.3",
     "minimist": "^1.1.0",
     "netbeast": "0.0.6",
@@ -37,6 +38,7 @@
   },
   "homepage": "https://github.com/netbeast-co/get-started",
   "netbeast": {
+    "bootOnLoad": true,
     "type": "plugin"
   }
 }
