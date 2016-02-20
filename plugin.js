@@ -26,7 +26,7 @@ module.exports = function (io) {
     console.log(err)
   })
 
-  request.post(process.env.LOCAL_URL + '/api/resources')
+  request.post('http://' + process.env.NETBEAST + '/api/resources')
   .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
   .end(function (err, resp) {
     if (err) console.log(err)
