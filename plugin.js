@@ -7,7 +7,6 @@ var bulbParams // aux nasty way to transmit changes
 
 var bulbvalues = {power: 'power', brightness: 'brightness', saturation: 'saturation', hue: 'hue'}
 
-
 module.exports = function (io) {
   io.on('connection', function (socket) {
     console.log('ws:// bulb has connected to plugin')
@@ -26,10 +25,13 @@ module.exports = function (io) {
     console.log(err)
   })
 
-  request.post('http://' + process.env.NETBEAST + '/api/resources')
-  .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
-  .end(function (err, resp) {
-    if (err) console.log(err)
+  request.get('http://' + process.env.NETBEAST + '/api/resources?app=bulb-plugin',
+  function (err, resp, body) {
+    if (err) return console.log(err)
+    if (resp.body) return
+    request.post('http://' + process.env.NETBEAST + '/api/resources')
+    .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
+    .end()
   })
 
   router.post('/', function (req, res) {
@@ -61,18 +63,12 @@ module.exports = function (io) {
         }
       } else return res.status(400).send('Incorrect color format')
     } else {
-      console.log(bulbParams)
       if (bulbParams) {
-        console.log(bulbParams.color)
         var hsl = colorsys.hex2Hsl(bulbParams.color)
-        console.log(hsl)
         response.hue = req.body.hue ? req.body.hue : hsl.h
         response.saturation = req.body.saturation ? req.body.saturation : hsl.s
         response.brightness = req.body.brightness ? req.body.brightness : hsl.l
-        console.log(response)
         response.color = colorsys.hsl2Hex(response.hue, response.saturation, response.brightness)
-        console.log(colorsys.hsl2Hex(response.hue, response.saturation, response.brightness))
-        console.log(colorsys.hex2Hsl(response.color))
       }
     }
     if (!response) return res.status(400).send('Incorrect set format')
