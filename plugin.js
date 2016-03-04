@@ -10,10 +10,21 @@ var bulbvalues = {power: 'power', brightness: 'brightness', saturation: 'saturat
 module.exports = function (io) {
   io.on('connection', function (socket) {
     console.log('ws:// bulb has connected to plugin')
+
+    request.get('http://' + process.env.NETBEAST + '/api/resources?app=bulb-plugin',
+    function (err, resp, body) {
+      if (err) return console.log(err)
+      if (resp.body) return
+      request.post('http://' + process.env.NETBEAST + '/api/resources')
+      .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
+      .end(function () {
+        io.emit('get')
+      })
+    })
+
     socket.on('params', function (params) {
       bulbParams = params
     })
-    io.emit('get')
   })
 
   io.on('disconnection', function () {
@@ -25,21 +36,13 @@ module.exports = function (io) {
     console.log(err)
   })
 
-  request.get('http://' + process.env.NETBEAST + '/api/resources?app=bulb-plugin',
-  function (err, resp, body) {
-    if (err) return console.log(err)
-    if (resp.body) return
-    request.post('http://' + process.env.NETBEAST + '/api/resources')
-    .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
-    .end()
-  })
-
   router.post('/', function (req, res) {
+    console.log(req.body)
     io.emit('get')
     if (!Object.keys(req.body).length) return res.status(400).send('Incorrect set format')
     console.log('Plugin translates uniform req.body to bulb params...')
     var response = {}
-    if (req.body.power) response.power = req.body.power
+    if ('power' in req.body) response.power = req.body.power
 
     if ('color' in req.body) {
       if (req.body.hue) delete req.body.hue
@@ -74,13 +77,13 @@ module.exports = function (io) {
     if (!response) return res.status(400).send('Incorrect set format')
 
     io.emit('set', {
-      power: response.power || bulbParams.power,
-      color: response.color || bulbParams.color
+      power: ('power' in response) ? ((response.power) ? 'on' : 'off') : bulbParams.power,
+      color: ('color' in response) ? response.color : bulbParams.color
     })
     console.log('setting...')
     console.log({
-      power: response.power || bulbParams.power,
-      color: response.color || bulbParams.color
+      power: ('power' in response) ? ((response.power) ? 'on' : 'off') : bulbParams.power,
+      color: ('color' in response) ? response.color : bulbParams.color
     })
     bulbParams = null
     res.send(response)
