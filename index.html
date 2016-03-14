@@ -1,7 +1,6 @@
 <head>
   <title>Netbeast Bulb Plugin</title>
   <link rel="stylesheet" href="bulb.css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="style.css" media="screen" charset="utf-8">
 </head>
 
 <body style="width: 100%; height: 300px; background-color: #292929; padding-top: 50px;">
@@ -34,7 +33,7 @@
         <div id="terminal">
             <pre style="text-align: center;  margin: 0px auto;color: 00FEA5 ">
 // Set color to your favourite colour     
-//and hit START!                          
+// and hit START!                          
 // Set power to on or off to switch on/off
 
         <i class="txt-red">beast</i>(<i class="txt-green">'lights'</i>).<i class="txt-blue">set</i>({                      
@@ -42,7 +41,7 @@
           <i class="txt-green">power</i>: <i class="txt-green">"<input id="power" type="text" class="power" name="power" value="on" style="color: 00FEA5; background-color: transparent; border: none;">"</i>         
         })                               </pre>
         </div>
-    <div class='start-btn' id="run-btn" style="margin-top: 20px;">START</div>
+        <div class='start-btn' id="run-btn" style="margin-top: 20px;"><img src="start.png"></img></div>
   </div><!-- wrapper -->
 
   <!-- declares bulb features and methods -->
@@ -50,5 +49,7 @@
   <!-- real time comms library -->
   <script type="text/javascript" src="socketio.js"></script>
   <!-- simulates hardware communication -->
-  <script type="text/javascript" src="hw-api.js"></script>
+  <!-- commented to avoid void requests on our website demo -->
+  <!-- uncomment for the real deal -->
+  <!--<script type="text/javascript" src="hw-api.js"></script>-->
 </body>
