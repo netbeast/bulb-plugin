@@ -1,6 +1,7 @@
 var express = require('express')
 var request = require('superagent')
 var colorsys = require('colorsys')
+var netbeast = require('netbeast')
 
 var router = express.Router()
 var bulbParams // aux nasty way to transmit changes
@@ -15,9 +16,8 @@ module.exports = function (io) {
     function (err, resp, body) {
       if (err) return console.log(err)
       if (resp.body.length) return
-      request.post('http://' + process.env.NETBEAST + '/api/resources')
-      .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
-      .end(function () {
+      netbeast().create({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
+      .then(function () {
         io.emit('get')
       })
     })
@@ -29,11 +29,13 @@ module.exports = function (io) {
 
   io.on('disconnection', function () {
     console.log('ws:// bulb has disconnected from plugin')
+    netbeast().delete({app: 'bulb-plugin'})
   })
 
   io.on('connect_failure', function (err) {
     console.log('ws:// connection failure')
     console.log(err)
+    netbeast().delete({app: 'bulb-plugin'})
   })
 
   router.post('/', function (req, res) {
