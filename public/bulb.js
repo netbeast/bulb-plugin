@@ -9,7 +9,6 @@ button.onclick = function toggleBulbState () {
 }
 
 function setBulbParams (params) {
-  console.log(params)
   if (params.power === 'on' || params.power === 'off') {
     if (params.power === 'off') {
       params = { color: 'E7E7E7' }
@@ -28,7 +27,6 @@ function setBulbParams (params) {
 }
 
 function changeBulbParams (params) {
-  console.log('change params', params)
   /* Overwrite html fields if necessary */
   color.value = ('color' in params) ? params.color : color.value
   power.value = ('power' in params) ? params.power : power.value

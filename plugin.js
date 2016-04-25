@@ -14,7 +14,7 @@ module.exports = function (io) {
     request.get('http://' + process.env.NETBEAST + '/api/resources?app=bulb-plugin',
     function (err, resp, body) {
       if (err) return console.log(err)
-      if (resp.body) return
+      if (resp.body.length) return
       request.post('http://' + process.env.NETBEAST + '/api/resources')
       .send({ app: 'bulb-plugin', topic: 'lights', hook: '/api' })
       .end(function () {
@@ -37,7 +37,6 @@ module.exports = function (io) {
   })
 
   router.post('/', function (req, res) {
-    console.log(req.body)
     io.emit('get')
     if (!Object.keys(req.body).length) return res.status(400).send('Incorrect set format')
     console.log('Plugin translates uniform req.body to bulb params...')
@@ -77,7 +76,7 @@ module.exports = function (io) {
     if (!response) return res.status(400).send('Incorrect set format')
 
     io.emit('set', {
-      power: ('power' in response) ? ((response.power) ? 'on' : 'off') : bulbParams.power,
+      power: ('power' in response) ? ((response.power && response.power !== 'off') ? 'on' : 'off') : bulbParams.power,
       color: ('color' in response) ? response.color : bulbParams.color
     })
     console.log('setting...')
